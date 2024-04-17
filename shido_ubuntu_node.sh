@@ -81,7 +81,7 @@ else
 fi
 
 # Setup local node if overwrite is set to Yes, otherwise skip setup
-if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
+if [ $overwrite = "y" || $overwrite = "y" ]; then
 	# Remove the previous folder
 	file_path="/etc/systemd/system/shidochain.service"
 
