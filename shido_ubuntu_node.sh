@@ -22,7 +22,7 @@ BINARY="shidod"
 INSTALL_PATH="/usr/local/bin/"
 
 # Check if the OS is Ubuntu and the version is either 20.04 or 22.04
-if [ "$OS" == "Ubuntu" ] && [ "$VERSION" == "20.04" -o "$VERSION" == "22.04" ]; then
+if [ "$OS" = "Ubuntu" ] && [ "$VERSION" = "20.04" -o "$VERSION" = "22.04" ]; then
   # Copy and set executable permissions
   current_path=$(pwd)
   
