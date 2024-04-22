@@ -144,7 +144,7 @@ fi
 
 
 	# these are some of the node ids help to sync the node with p2p connections
-	 sed -i 's/persistent_peers \s*=\s* ""/persistent_peers = "8c1c28eee44fb939427cc645d51c14fb11e6648b@3.120.49.189:26656,a887f17c46702e8d7317ad20a07d0cfc483c7dff@18.153.251.152:26656,628de9fd0fde3f96fd1435d844a0e55b0000dd99@18.199.116.165:26656,b4166cdc7d1f92c54b9d39fe5a94af9e54e04726@15.223.62.181:26656,98e1d5375a38b0b410b00f5459f81341069b14ad@52.60.59.80:26656"/g' "$CONFIG"
+	 sed -i 's/persistent_peers \s*=\s* ""/persistent_peers = "7ed728831ff441d18a8556b64afcaebc31b68c74@3.76.57.158:26656,f28f693053306fba8bf59c4a54b7bd9f89de7ebb@18.193.227.128:26656,181fcc5672fee87751eb369491744e85ba0651f5@18.153.233.126:26656,8d46e292347951d651486611abac77825a0c83f8@18.199.25.117:26656,cdf19a7234ee8ec12519f6ad066408f09e1b73e0@15.157.50.94:26656"/g' "$CONFIG"
 
 	# remove the genesis file from binary
 	 rm -rf $HOMEDIR/config/genesis.json
