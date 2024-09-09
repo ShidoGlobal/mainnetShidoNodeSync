@@ -7,8 +7,8 @@
 #fi
 current_path=$(pwd)
 bash  $current_path/install-go.sh 
-bash install-go.sh
-source ~/.bashrc
+
+source $HOME/.bashrc
 ulimit -n 16384
 
 go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
