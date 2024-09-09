@@ -211,4 +211,5 @@ WantedBy=multi-user.target'> /etc/systemd/system/shidochain.service"
 
 sudo systemctl daemon-reload
 sudo systemctl enable shidochain.service
+shidod tendermint unsafe-reset-all --home $HOMEDIR
 sudo systemctl start shidochain.service
