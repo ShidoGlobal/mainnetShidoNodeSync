@@ -148,9 +148,9 @@ fi
   
   sed -i 's/enable = false/enable = true/g' "$CONFIG"
 	 sed -i 's/rpc_servers \s*=\s* ""/rpc_servers = "https:\/\/shidochain_mainnet_rpc.chain.whenmoonwhenlambo.money:443,https:\/\/shido-rpc.applejuice.256x25.tech:443"/g' "$CONFIG"
-   sed -i 's/trust_hash \s*=\s* ""/trust_hash = "EE279B9766295FB740B82D90E73B432752069F4B60939834E1CAC00B9B62B15D"/g' "$CONFIG"
-sed -i 's/trust_height = 0/trust_height = 4406349/g' "$CONFIG"
-sed -i 's/trust_period = "112h0m0s"/trust_period = "168h"/g' "$CONFIG"
+   sed -i 's/trust_hash \s*=\s* ""/trust_hash = "54E8BE5A4CCBD2ED58DF263B76A0F269DE72E2063FBFF24D61CF3C3F2F8FCD89"/g' "$CONFIG"
+sed -i 's/trust_height = 0/trust_height = 4405000/g' "$CONFIG"
+sed -i 's/trust_period = "112h0m0s"/trust_period = "168h0m0s"/g' "$CONFIG"
 sed -i 's/flush_throttle_timeout = "100ms"/flush_throttle_timeout = "10ms"/g' "$CONFIG"
 sed -i 's/peer_gossip_sleep_duration = "100ms"/peer_gossip_sleep_duration = "10ms"/g' "$CONFIG"
 
