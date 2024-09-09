@@ -141,7 +141,14 @@ fi
     sed -i 's/127.0.0.1/0.0.0.0/g' "$CLIENT"
     sed -i 's/\[\]/["*"]/g' "$CONFIG"
 	sed -i 's/\["\*",\]/["*"]/g' "$CONFIG"
-
+  
+  sed -i 's/enable = false/enable = true/g' "$CONFIG"
+	 sed -i 's/rpc_servers \s*=\s* ""/rpc_servers = "https:\/\/shidochain_mainnet_rpc.chain.whenmoonwhenlambo.money,https:\/\/tendermint.shidoscan.com"/g' "$CONFIG"
+   sed -i 's/trust_hash \s*=\s* ""/trust_hash = "3936CDD8543EE343B76FAFACB6A9E84C387205E48F47840CBA8BABD224BE8CE1"/g' "$CONFIG"
+sed -i 's/trust_height = 0/trust_height = 4403702/g' "$CONFIG"
+sed -i 's/trust_period = "112h0m0s"/trust_period = "168h"/g' "$CONFIG"
+sed -i 's/flush_throttle_timeout = "100ms"/flush_throttle_timeout = "10ms"/g' "$CONFIG"
+sed -i 's/peer_gossip_sleep_duration = "100ms"/peer_gossip_sleep_duration = "10ms"/g' "$CONFIG"
 
 	# these are some of the node ids help to sync the node with p2p connections
 	 sed -i 's/persistent_peers \s*=\s* ""/persistent_peers = "b0bade3e416f88a6c21c14d5de15aa9928a352e6@18.192.75.125:26656,4a7e112b84119435c16f71bde955b9cbcc6180ac@18.199.28.209:26656,5267ea7a65f7fe8e5f61658ca21e6d77adcb9ae3@3.79.211.195:26656,cb8f8c6f813612a5b9844c0699490a583bc12d84@35.182.147.124:26656,64364788e1d74ff41e075902a780193116d3cf9b@15.156.158.51:26656"/g' "$CONFIG"
@@ -176,28 +183,28 @@ fi
 
 fi
 
-#========================================================================================================================================================
-sudo su -c  "echo '[Unit]
-Description=Shido Node
-Wants=network-online.target
-After=network-online.target
-[Service]
-User=$(whoami)
-Group=$(whoami)
-Type=simple
-ExecStart=/home/$(whoami)/go/bin/cosmovisor run start --home $DAEMON_HOME
-Restart=always
-RestartSec=3
-LimitNOFILE=4096
-Environment="DAEMON_NAME=shidod"
-Environment="DAEMON_HOME="$HOMEDIR""
-Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=false"
-Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
-Environment="DAEMON_LOG_BUFFER_SIZE=512"
-Environment="UNSAFE_SKIP_BACKUP=false"
-[Install]
-WantedBy=multi-user.target'> /etc/systemd/system/shidochain.service"
+# #========================================================================================================================================================
+# sudo su -c  "echo '[Unit]
+# Description=Shido Node
+# Wants=network-online.target
+# After=network-online.target
+# [Service]
+# User=$(whoami)
+# Group=$(whoami)
+# Type=simple
+# ExecStart=/home/$(whoami)/go/bin/cosmovisor run start --home $DAEMON_HOME
+# Restart=always
+# RestartSec=3
+# LimitNOFILE=4096
+# Environment="DAEMON_NAME=shidod"
+# Environment="DAEMON_HOME="$HOMEDIR""
+# Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=false"
+# Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
+# Environment="DAEMON_LOG_BUFFER_SIZE=512"
+# Environment="UNSAFE_SKIP_BACKUP=false"
+# [Install]
+# WantedBy=multi-user.target'> /etc/systemd/system/shidochain.service"
 
-sudo systemctl daemon-reload
-sudo systemctl enable shidochain.service
-sudo systemctl start shidochain.service
+# sudo systemctl daemon-reload
+# sudo systemctl enable shidochain.service
+# sudo systemctl start shidochain.service
