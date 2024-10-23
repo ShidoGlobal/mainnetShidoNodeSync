@@ -155,7 +155,7 @@ sed -i 's/flush_throttle_timeout = "100ms"/flush_throttle_timeout = "10ms"/g' "$
 sed -i 's/peer_gossip_sleep_duration = "100ms"/peer_gossip_sleep_duration = "10ms"/g' "$CONFIG"
 
 	# these are some of the node ids help to sync the node with p2p connections
-	 sed -i 's/persistent_peers \s*=\s* ""/persistent_peers = "b0bade3e416f88a6c21c14d5de15aa9928a352e6@18.192.75.125:26656,4a7e112b84119435c16f71bde955b9cbcc6180ac@18.199.28.209:26656,5267ea7a65f7fe8e5f61658ca21e6d77adcb9ae3@3.79.211.195:26656,cb8f8c6f813612a5b9844c0699490a583bc12d84@35.182.147.124:26656,64364788e1d74ff41e075902a780193116d3cf9b@15.156.158.51:26656"/g' "$CONFIG"
+	 sed -i 's/persistent_peers \s*=\s* ""/persistent_peers = "2996de7a6751f8be1968c0343db81eb0aafba1ab@18.159.173.214:26656,c43c82096f3ea0e8cc128fa6dadb71b3ba2178d8@63.176.19.128:26656,cb8f8c6f813612a5b9844c0699490a583bc12d84@35.182.147.124:26656,64364788e1d74ff41e075902a780193116d3cf9b@15.156.158.51:26656"/g' "$CONFIG"
 
 	# remove the genesis file from binary
 	 rm -rf $HOMEDIR/config/genesis.json
