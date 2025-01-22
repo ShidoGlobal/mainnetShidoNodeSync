@@ -148,14 +148,14 @@ fi
   
   sed -i 's/enable = false/enable = true/g' "$CONFIG"
 	 sed -i 's/rpc_servers \s*=\s* ""/rpc_servers = "https:\/\/shidochain_mainnet_rpc.chain.whenmoonwhenlambo.money:443,https:\/\/rpc-maverick.mavnode.io:443,https:\/\/rpc.kenseishido.com:443,https:\/\/tendermint.shidoscan.com:443"/g' "$CONFIG"
-   sed -i 's/trust_hash \s*=\s* ""/trust_hash = "8223EF205275D355369D43391DA33A7AD7355932B50E50A7C092A0729084C739"/g' "$CONFIG"
-sed -i 's/trust_height = 0/trust_height = 5063000/g' "$CONFIG"
+   sed -i 's/trust_hash \s*=\s* ""/trust_hash = "08E89881362E15E3AC9F332DE23E0A54087FF2A8C67CBD50238F98EFC066E640"/g' "$CONFIG"
+sed -i 's/trust_height = 0/trust_height = 11035000/g' "$CONFIG"
 sed -i 's/trust_period = "112h0m0s"/trust_period = "168h0m0s"/g' "$CONFIG"
 sed -i 's/flush_throttle_timeout = "100ms"/flush_throttle_timeout = "10ms"/g' "$CONFIG"
 sed -i 's/peer_gossip_sleep_duration = "100ms"/peer_gossip_sleep_duration = "10ms"/g' "$CONFIG"
 
 	# these are some of the node ids help to sync the node with p2p connections
-	 sed -i 's/persistent_peers \s*=\s* ""/persistent_peers = "2996de7a6751f8be1968c0343db81eb0aafba1ab@18.159.173.214:26656,c43c82096f3ea0e8cc128fa6dadb71b3ba2178d8@63.176.19.128:26656,cb8f8c6f813612a5b9844c0699490a583bc12d84@35.182.147.124:26656,64364788e1d74ff41e075902a780193116d3cf9b@15.156.158.51:26656"/g' "$CONFIG"
+	 sed -i 's/persistent_peers \s*=\s* ""/persistent_peers = "c43c82096f3ea0e8cc128fa6dadb71b3ba2178d8@63.176.19.128:26656,355cb9042c2c88f71640da4110a9d65f21084a79@3.98.239.17:26656,cb8f8c6f813612a5b9844c0699490a583bc12d84@35.182.147.124:26656,64364788e1d74ff41e075902a780193116d3cf9b@15.156.158.51:26656"/g' "$CONFIG"
 
 	# remove the genesis file from binary
 	 rm -rf $HOMEDIR/config/genesis.json
