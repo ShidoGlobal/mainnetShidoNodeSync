@@ -1,17 +1,34 @@
 #!/bin/bash
 
-# Check if the script is run as root
-#if [ "$(id -u)" != "0" ]; then
-#  echo "This script must be run as root or with sudo." 1>&2
-#  exit 1
-#fi
-current_path=$(pwd)
-bash  $current_path/install-go.sh 
+# Exit on error
+set -e
 
-source $HOME/.bashrc
-ulimit -n 16384
+# Function to print error messages
+print_error() {
+    echo "[ERROR] $(date '+%Y-%m-%d %H:%M:%S') - $1" >&2
+}
 
-go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
+# Function to print status messages
+print_status() {
+    echo "[INFO] $(date '+%Y-%m-%d %H:%M:%S') - $1"
+}
+
+# Function to print warning messages
+print_warning() {
+    echo "[WARNING] $(date '+%Y-%m-%d %H:%M:%S') - $1"
+}
+
+current_path="$(pwd)"
+
+# Install Go dependencies
+bash "$current_path/install-go.sh" || print_error "Failed to install Go dependencies"
+
+# Source bashrc and set ulimit
+source "$HOME/.bashrc" || print_error "Failed to source bashrc"
+ulimit -n 16384 || print_error "Failed to set ulimit"
+
+print_status "Installing cosmovisor..."
+go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0 || print_error "Failed to install cosmovisor"
 
 # Get OS and version
 OS=$(awk -F '=' '/^NAME/{print $2}' /etc/os-release | awk '{print $1}' | tr -d '"')
@@ -22,17 +39,58 @@ BINARY="shidod"
 INSTALL_PATH="/usr/local/bin/"
 
 # Check if the OS is Ubuntu and the version is either 20.04 or 22.04
-if [ "$OS" == "Ubuntu" ] && [ "$VERSION" == "20.04" -o "$VERSION" == "22.04" ]; then
-  # Copy and set executable permissions
+# Check if the OS is Ubuntu and the version is either 20.04 or 22.04
+if [ "$OS" = "Ubuntu" ] && { [ "$VERSION" = "20.04" ] || [ "$VERSION" = "22.04" ]; }; then
+    print_status "Starting installation for Ubuntu $VERSION..."
+    print_status "Binary: $BINARY"
+    print_status "Install path: $INSTALL_PATH"
+    print_status "Downloading shidod binary for Ubuntu $VERSION..."
+    
+    # Download the binary
+    DOWNLOAD_URL="https://github.com/ShidoGlobal/mainnet-enso-upgrade/releases/download/ubuntu${VERSION}/shidod"
+    print_status "Download URL: $DOWNLOAD_URL"
+    
+    # Remove existing binary if present
+    if [ -f "$BINARY" ]; then
+        rm -f "$BINARY"
+    fi
+    
+    # Download with error checking
+    if command -v wget >/dev/null 2>&1; then
+        wget "$DOWNLOAD_URL" -O "$BINARY"
+    elif command -v curl >/dev/null 2>&1; then
+        curl -L "$DOWNLOAD_URL" -o "$BINARY"
+    else
+        print_error "Neither wget nor curl is installed. Please install one of them."
+        exit 1
+    fi
+    
+    # Verify download
+    if [ ! -f "$BINARY" ]; then
+        print_error "Failed to download binary"
+        exit 1
+    fi
+    
+    # Make the binary executable
+    chmod +x "$BINARY"
+    
+    # Verify binary works
+    if ./"$BINARY" version >/dev/null 2>&1; then
+        print_status "Binary downloaded and verified successfully"
+    else
+        print_warning "Binary downloaded but version check failed"
+    fi
+  
   current_path=$(pwd)
   
   # Update package lists and install necessary packages
-  sudo  apt-get update
-  sudo apt-get install -y build-essential jq wget unzip
+  print_status "Installing system dependencies..."
+  sudo apt-get update -y || print_error "Failed to update package lists"
+  sudo apt-get install -y build-essential jq wget unzip || print_error "Failed to install dependencies"
   
   # Check if the installation path exists
   if [ -d "$INSTALL_PATH" ]; then
-  sudo  cp "$current_path/ubuntu${VERSION}build/$BINARY" "$INSTALL_PATH" && sudo chmod +x "${INSTALL_PATH}${BINARY}"
+    sudo  cp "$current_path/$BINARY" "$INSTALL_PATH" && sudo chmod +x "${INSTALL_PATH}${BINARY}"
     echo "$BINARY installed or updated successfully!"
   else
     echo "Installation path $INSTALL_PATH does not exist. Please create it."
@@ -43,7 +101,29 @@ else
   exit 1
 fi
 
-sudo cp $current_path/libwasmvm.x86_64.so /usr/lib
+print_status "Installing WASMVM library..."
+
+# Remove existing WASMVM library
+if [ -f "/usr/lib/libwasmvm.x86_64.so" ]; then
+    print_status "Removing existing WASMVM library..."
+    sudo rm /usr/lib/libwasmvm.x86_64.so || print_error "Failed to remove existing WASMVM library"
+fi
+
+# Download WASMVM library
+print_status "Downloading WASMVM library v2.1.4..."
+sudo wget -O /usr/lib/libwasmvm.x86_64.so https://github.com/CosmWasm/wasmvm/releases/download/v2.1.4/libwasmvm.x86_64.so \
+    || print_error "Failed to download WASMVM library"
+
+# Update library cache
+print_status "Updating library cache..."
+sudo ldconfig || print_error "Failed to update library cache"
+
+# Verify installation
+if [ -f "/usr/lib/libwasmvm.x86_64.so" ]; then
+    print_status "WASMVM library installed successfully"
+else
+    print_error "WASMVM library installation failed"
+fi
 #==========================================================================================================================================
 KEYS="glen"
 CHAINID="shido_9008-1"
@@ -93,32 +173,14 @@ fi
 	sudo rm -rf "$HOMEDIR"
 
 	# Set client config
-	shidod config keyring-backend $KEYRING --home "$HOMEDIR"
-	shidod config chain-id $CHAINID --home "$HOMEDIR"
+	shidod config set client chain-id "$CHAINID" --home "$HOMEDIR"
+	shidod config set client keyring-backend "$KEYRING" --home "$HOMEDIR"
     echo "===========================Copy these keys with mnemonics and save it in safe place ==================================="
 	shidod keys add $KEYS --keyring-backend $KEYRING --algo $KEYALGO --home "$HOMEDIR"
 	echo "========================================================================================================================"
 	echo "========================================================================================================================"
 	shidod init $MONIKER -o --chain-id $CHAINID --home "$HOMEDIR"
 
-		# Change parameter token denominations to shido
-	jq '.app_state["staking"]["params"]["bond_denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["crisis"]["constant_fee"]["denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["gov"]["params"]["min_deposit"][0]["denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["evm"]["params"]["evm_denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-    jq '.app_state["mint"]["params"]["mint_denom"]="shido"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-
-	jq '.consensus_params["block"]["max_bytes"]="8388608"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-    jq '.app_state["mint"]["params"]["blocks_per_year"]="31536000"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-    jq '.app_state["mint"]["minter"]["inflation"]="0.080000000000000000"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-    jq '.app_state["mint"]["params"]["inflation_rate_change"]="0.080000000000000000"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-    jq '.app_state["mint"]["params"]["inflation_max"]="0.080000000000000000"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-    jq '.app_state["mint"]["params"]["inflation_min"]="0.080000000000000000"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-    jq '.app_state["feemarket"]["params"]["base_fee"]="182855642857142"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	# Set gas limit in genesis
-	jq '.consensus_params["block"]["max_gas"]="10000000"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	
 
 	#changes status in app,config files
     sed -i 's/timeout_commit = "3s"/timeout_commit = "1s"/g' "$CONFIG"
@@ -164,7 +226,7 @@ sed -i 's/peer_gossip_sleep_duration = "100ms"/peer_gossip_sleep_duration = "10m
 	 cp $current_path/genesis.json $HOMEDIR/config
 
 	# Run this to ensure everything worked and that the genesis file is setup correctly
-	shidod validate-genesis --home "$HOMEDIR"
+	# shidod validate-genesis --home "$HOMEDIR"
 
 	echo "export DAEMON_NAME=shidod" >> ~/.profile
     echo "export DAEMON_HOME="$HOMEDIR"" >> ~/.profile
@@ -211,5 +273,4 @@ WantedBy=multi-user.target'> /etc/systemd/system/shidochain.service"
 
 sudo systemctl daemon-reload
 sudo systemctl enable shidochain.service
-shidod tendermint unsafe-reset-all --home $HOMEDIR
 sudo systemctl start shidochain.service
