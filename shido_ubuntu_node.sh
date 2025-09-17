@@ -209,15 +209,15 @@ fi
 	sed -i 's/\["\*",\]/["*"]/g' "$CONFIG"
   
   sed -i 's/enable = false/enable = true/g' "$CONFIG"
-	 sed -i 's/rpc_servers \s*=\s* ""/rpc_servers = "https:\/\/shidochain_mainnet_rpc.chain.whenmoonwhenlambo.money:443,https:\/\/rpc-maverick.mavnode.io:443,https:\/\/rpc.kenseishido.com:443,https:\/\/tendermint.shidoscan.com:443"/g' "$CONFIG"
-   sed -i 's/trust_hash \s*=\s* ""/trust_hash = "08E89881362E15E3AC9F332DE23E0A54087FF2A8C67CBD50238F98EFC066E640"/g' "$CONFIG"
-sed -i 's/trust_height = 0/trust_height = 11035000/g' "$CONFIG"
+	 sed -i 's/rpc_servers \s*=\s* ""/rpc_servers = "https:\/\/rpc.mavnode.io:443,https:\/\/rpc.shidoscan.net:443,https:\/\/tendermint.shidoscan.com:443"/g' "$CONFIG"
+   sed -i 's/trust_hash \s*=\s* ""/trust_hash = "5477A86CF04560DFB4A8F163F8A39396307846EC6C6B6BC171C3FEFF8EE620F8"/g' "$CONFIG"
+sed -i 's/trust_height = 0/trust_height = 21776000/g' "$CONFIG"
 sed -i 's/trust_period = "112h0m0s"/trust_period = "168h0m0s"/g' "$CONFIG"
 sed -i 's/flush_throttle_timeout = "100ms"/flush_throttle_timeout = "10ms"/g' "$CONFIG"
 sed -i 's/peer_gossip_sleep_duration = "100ms"/peer_gossip_sleep_duration = "10ms"/g' "$CONFIG"
 
 	# these are some of the node ids help to sync the node with p2p connections
-	 sed -i 's/persistent_peers \s*=\s* ""/persistent_peers = "c43c82096f3ea0e8cc128fa6dadb71b3ba2178d8@63.176.19.128:26656,355cb9042c2c88f71640da4110a9d65f21084a79@3.98.239.17:26656,cb8f8c6f813612a5b9844c0699490a583bc12d84@35.182.147.124:26656,64364788e1d74ff41e075902a780193116d3cf9b@15.156.158.51:26656"/g' "$CONFIG"
+	 sed -i 's/persistent_peers \s*=\s* ""/persistent_peers = "f28f693053306fba8bf59c4a54b7bd9f89de7ebb@18.193.227.128:26656,0646ac59a824eeec751e0862e6af72c0f5d6bc55@35.159.179.17:26656,29f9c382e89affd49c4a9bb59cb0ad68347db014@18.159.173.214:26656,b69863dd6da9fa77a285f2d4e40f2cbffed1b54a@45.90.121.111:26656,248bd68031c5f144a976646c160db83dac0b9955@45.90.122.47:26656,e9207104d4cd85a18097fe07eec646a4660f9815@88.99.147.241:26656,42c67bc5d7813fe273d43208400194e7a8bb81a0@85.190.246.81:26656,d457e45a34167e6280204e50eca332e2dae1305f@38.242.226.17:26656,31b1c6b90c936ce43c9453ef9e19d39afc47bacc@65.109.112.34:28656,4d36c3dbf2f9f1ffc66f84133d0143f02dbb42ef@35.183.211.64:26656,89d62bf02b7f3205c90f31b4097b388eeddf7892@15.156.146.164:26656,cb8f8c6f813612a5b9844c0699490a583bc12d84@35.182.147.124:26656,0becc9e6de1c50bce7285a7f40e9b33f776e524f@154.12.228.46:26656,78e1dcc4f884426ea15c6f5367087862c79ad475@195.26.252.72:26656,057365f4c7a4c7fa7ba05423ec5744303a694b65@3.110.11.92:26656,64364788e1d74ff41e075902a780193116d3cf9b@15.156.158.51:26656,355cb9042c2c88f71640da4110a9d65f21084a79@18.184.249.140:26656,2d9782b8636b52a642346aace086c18555d15f0b@3.98.239.17:26656,9b9dee928a174bcd0272be9127f5f455d418d6b2@169.0.36.222:26656,a82689a87eb31c1cd818bd07a11a833ab728b089@162.216.113.26:26656,442a36e50bad68ef9818fe91555f6e3a134f0cef@45.159.221.133:26656,8c3931761e4e213f318b3cfff971a53ddde48029@65.109.156.11:28656,3a49ee1135b4c0cc52a69dc21129583eb9302f9f@167.235.2.101:26656,222b02cae1010ea7cce41a4a5f07bbf611115ff6@13.200.25.27:26656,e53cb10029b52042cd962d6414c60faeb1054b03@51.75.146.180:26656,dbf4d33314f521e2bf153591d0ccbe9f80f7d4dd@84.16.248.143:26656,8bc3477040ab7ef9b0635fc2cb1ea46845cc2f93@65.109.115.195:26656,89b7d60f306e163efcebe3883bd618ba7f886c30@37.187.93.177:26686,ec900135187b3148c177957207e0cdd363f7da71@178.63.12.190:26656,3d70fb431e8c3e44a6257cea73a3c7c2c64825f4@144.91.89.229:26656,cb54b644a17c59a0387297517d6e7e558d6a6924@91.98.115.118:29656,84e5eb203666cb8167953bc61821b9bb633c19b5@178.162.198.204:26656,a78a17dde86e111bb53437528d50a808d9bb6c64@81.17.103.4:26656"/g' "$CONFIG"
 
 	# remove the genesis file from binary
 	 rm -rf $HOMEDIR/config/genesis.json
@@ -258,7 +258,7 @@ After=network-online.target
 User=$(whoami)
 Group=$(whoami)
 Type=simple
-ExecStart=/home/$(whoami)/go/bin/cosmovisor run start --home $DAEMON_HOME
+ExecStart=$(which cosmovisor) run start --home $DAEMON_HOME
 Restart=always
 RestartSec=3
 LimitNOFILE=4096
