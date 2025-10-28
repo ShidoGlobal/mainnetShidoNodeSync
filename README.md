@@ -28,7 +28,7 @@ open a terminal window and run the following command
 
 **NOTE:** The blockchain syncing is running in a background as a service you can print the logs and check the logs of the node with the following command.
 ```bash
-journalctl -u shido -f (it's for ubuntu)
+journalctl -u shidochain.service -f (it's for ubuntu)
 ```
 
 
