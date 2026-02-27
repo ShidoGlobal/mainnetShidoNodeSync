@@ -207,12 +207,17 @@ fi
     sed -i 's/127.0.0.1/0.0.0.0/g' "$CLIENT"
     sed -i 's/\[\]/["*"]/g' "$CONFIG"
 	sed -i 's/\["\*",\]/["*"]/g' "$CONFIG"
-  
+    # Don't enable Rosetta API by default
+		grep -q -F '[rosetta]' "$APP_TOML" && sed -i '/\[rosetta\]/,/^\[/ s/enable = true/enable = false/' "$APP_TOML"
+		# Don't enable memiavl by default
+		grep -q -F '[memiavl]' "$APP_TOML" && sed -i '/\[memiavl\]/,/^\[/ s/enable = true/enable = false/' "$APP_TOML"
+		# Don't enable versionDB by default
+		grep -q -F '[versiondb]' "$APP_TOML" && sed -i '/\[versiondb\]/,/^\[/ s/enable = true/enable = false/' "$APP_TOML"
 #   sed -i 's/enable = false/enable = true/g' "$CONFIG"
 # 	 sed -i 's/rpc_servers \s*=\s* ""/rpc_servers = "https:\/\/rpc.mavnode.io:443,https:\/\/rpc.shidoscan.net:443,https:\/\/tendermint.shidoscan.com:443"/g' "$CONFIG"
 #    sed -i 's/trust_hash \s*=\s* ""/trust_hash = "5477A86CF04560DFB4A8F163F8A39396307846EC6C6B6BC171C3FEFF8EE620F8"/g' "$CONFIG"
-sed -i 's/trust_height = 0/trust_height = 21776000/g' "$CONFIG"
-sed -i 's/trust_period = "112h0m0s"/trust_period = "168h0m0s"/g' "$CONFIG"
+# sed -i 's/trust_height = 0/trust_height = 21776000/g' "$CONFIG"
+# sed -i 's/trust_period = "112h0m0s"/trust_period = "168h0m0s"/g' "$CONFIG"
 sed -i 's/flush_throttle_timeout = "100ms"/flush_throttle_timeout = "10ms"/g' "$CONFIG"
 sed -i 's/peer_gossip_sleep_duration = "100ms"/peer_gossip_sleep_duration = "10ms"/g' "$CONFIG"
 
